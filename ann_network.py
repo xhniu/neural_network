@@ -15,7 +15,6 @@ import random
 
 # Third-party libraries
 import numpy as np
-#import mnist_loader 
 
 class Network(object):
 
@@ -31,7 +30,7 @@ class Network(object):
         won't set any biases for those neurons, since biases are only
         ever used in computing the outputs from later layers."""
         self.num_layers = len(sizes)
-        print self.num_layers
+
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
@@ -74,6 +73,9 @@ class Network(object):
         gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
         is the learning rate."""
+        
+        """use those mini batch data to update the all the parameters"""
+        
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         for x, y in mini_batch:
@@ -92,6 +94,9 @@ class Network(object):
         to ``self.biases`` and ``self.weights``."""
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
+        #print "self.biases", len(self.biases)
+        #print "self.weights", len(self.weights)
+        
         # feedforward
         activation = x
         activations = [x] # list to store all the activations, layer by layer
