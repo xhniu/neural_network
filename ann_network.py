@@ -106,9 +106,11 @@ class Network(object):
             zs.append(z)
             activation = sigmoid(z)
             activations.append(activation)
+
         # backward pass
         delta = self.cost_derivative(activations[-1], y) * \
             sigmoid_prime(zs[-1])
+        #calculate the last output
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little
@@ -117,11 +119,15 @@ class Network(object):
         # second-last layer, and so on.  It's a renumbering of the
         # scheme in the book, used here to take advantage of the fact
         # that Python can use negative indices in lists.
+
         for l in xrange(2, self.num_layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
+            # those code based on the BP2, this is iteration
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
+            # those code based on the BP3
             nabla_b[-l] = delta
+            # those code based on the BP4
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
         return (nabla_b, nabla_w)
 
@@ -149,7 +155,7 @@ def sigmoid_prime(z):
     return sigmoid(z)*(1-sigmoid(z))
 
 def test():
-    training_data, validation_data, test_data =    mnist_loader.load_data_wrapper()
+    training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
     net = Network([784, 30, 10])
     net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
 ###############################################################################
